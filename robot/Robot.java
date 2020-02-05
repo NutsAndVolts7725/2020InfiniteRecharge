@@ -12,6 +12,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.subsystems.Tunel;
+import frc.robot.subsystems.TurretRotation;
+import frc.robot.subsystems.DistanceSensor;
+import frc.robot.subsystems.Wheel;
+import edu.wpi.first.cameraserver.CameraServer;
+import frc.robot.subsystems.ColorSensor;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,8 +29,14 @@ import frc.robot.subsystems.Tunel;
 public class Robot extends TimedRobot {
   public static OI m_oi;
   public static Tunel Tunel = new Tunel();
+  public static TurretRotation RotateTurret = new TurretRotation();
+  public static Wheel Wheel = new Wheel();
+  public static DistanceSensor DistanceSensor = new DistanceSensor();
+  public static ColorSensor ColorSensor = new ColorSensor();
 
+  public static DistanceSensor mb1013 = new DistanceSensor();
 
+  
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -35,6 +47,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_oi = new OI();
+
+    CameraServer.getInstance().startAutomaticCapture();
+
+    ColorSensor.initColor();
+
   }
 
   /**
@@ -47,9 +64,21 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+
+
+
+    //SmartDashboard.putNumber("Distance (volts)", voltage);
+    //SmartDashboard.putNumber("Distance (real)", distance);
+
+    mb1013.updateDashboard();
+
+    ColorSensor.getColor();
+ 
+
+
   }
 
-  /**
+  /*
    * This function is called once each time the robot enters Disabled mode.
    * You can use it to reset any subsystem information you want to clear when
    * the robot is disabled.

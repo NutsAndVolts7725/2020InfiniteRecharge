@@ -7,36 +7,52 @@
 
 package frc.robot.commands;
 
-import frc.robot.Robot;
-import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
+import frc.robot.subsystems.DistanceSensor;
+import frc.robot.RobotMap;
 
-public class TunelEntry extends Command {
+import edu.wpi.first.wpilibj.Timer;
+
+public class Turret extends Command {
   boolean isMoving = false;
 
-  public TunelEntry() {
-    requires(Robot.Tunel);
+  public Turret() {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.DistanceSensor);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+
+    DistanceSensor sensor = new DistanceSensor();
+
+    Timer timer = new Timer();
+
+    double distance;
+
+    distance = sensor.getDistance();
+
+    timer.start();
+    timer.stop();
+
+
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
+    System.out.println("Turret Shooter");
     if (!isMoving) {
-      Robot.Tunel.TunelEntryOn(RobotMap.TUNEL_ENTRY_ON_VELOCITY);
+      Robot.Tunel.TunelShooterOn(RobotMap.GLOBAL_VELOCITY);
       isMoving = true;
-      System.out.println("Tunel Entry On");
-    } else {
-      Robot.Tunel.TunelEntryOn(0);
-      isMoving = false;
-      System.out.println("Tunel Entry Off");
-    }
 
+    } else {
+      Robot.Tunel.TunelShooterOn(0);
+      isMoving = false;
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -48,13 +64,11 @@ public class TunelEntry extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-   
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    this.end();
   }
 }

@@ -9,32 +9,24 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
  */
-public class Tunel extends Subsystem {
+public class Wheel extends Subsystem {
   
-  private VictorSPX motorIntake1 = new VictorSPX(RobotMap.MOTOR_INTAKE_1_ID);
-  private VictorSPX motorIntake2 = new VictorSPX(RobotMap.MOTOR_INTAKE_2_ID);
-  private VictorSPX motorIntake3 = new VictorSPX(RobotMap.MOTOR_INTAKE_3_ID);
-  
-public void TunelEntryOn(double speed) {
-  motorIntake1.set(ControlMode.PercentOutput, speed); 
-}
+  private VictorSPX motorWheel = new VictorSPX(RobotMap.MOTOR_INTAKE_4_ID);
 
-public void TunelFinalOn(double speed) {
-  motorIntake2.set(ControlMode.PercentOutput, speed); 
-}
-
-public void TunelShooterOn(double speed) {
-  motorIntake3.set(ControlMode.PercentOutput, speed);
-}
+  public void WheelOn(double speed) {
+    motorWheel.set(ControlMode.PercentOutput, speed); 
+  }
 
   @Override
   public void initDefaultCommand() {
-    
+    // Set the default command for a subsystem here.
+    // setDefaultCommand(new MySpecialCommand());
   }
 }

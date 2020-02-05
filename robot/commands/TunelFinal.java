@@ -11,10 +11,23 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
+
+
 public class TunelFinal extends Command {
-  boolean isMoving = false;
-  public TunelFinal() {
+  
+  public static enum Direction {
+    TUNEL_FINAL_UP,
+    TUNEL_FINAL_DOWN,
+    TUNEL_FINAL_OFF
+  }
+  
+  Direction direction;
+  boolean isMovingUp = false;
+  boolean isMovingDown = false;
+
+  public TunelFinal(Direction direction) {
     requires(Robot.Tunel);
+    this.direction = direction;
   }
 
   // Called just before this Command runs the first time
@@ -26,14 +39,50 @@ public class TunelFinal extends Command {
   @Override
   protected void execute() {
    
-    if (!isMoving) {
-      Robot.Tunel.TunelFinalOn(RobotMap.GLOBAL_VELOCITY);
-      isMoving = true;
+    switch (direction) {
 
-    } else {
-      Robot.Tunel.TunelFinalOn(0);
-      isMoving = false;
+      case TUNEL_FINAL_UP:
+        isMovingDown = false;
+        if (!isMovingUp) {
+          Robot.Tunel.TunelFinalOn(RobotMap.GLOBAL_VELOCITY);
+          isMovingUp = true;
+          System.out.println("Tunel Final Up On");
+          isMovingDown = false;
+        } else {
+          Robot.Tunel.TunelFinalOn(0);
+          isMovingUp = false;
+          System.out.println("Tunel Final Up Off");
+          isMovingDown = false;
+        }
+      break;
+
+      case TUNEL_FINAL_DOWN:
+        isMovingUp = false;
+        if (!isMovingDown) {
+          Robot.Tunel.TunelFinalOn(-RobotMap.GLOBAL_VELOCITY);
+          isMovingDown = true;
+          System.out.println("Tunel Final Down On");
+          isMovingUp = false;
+        } else {
+          Robot.Tunel.TunelFinalOn(0);
+          isMovingDown = false;
+          System.out.println("Tunel Final Down Off");
+          isMovingUp = false;
+        }
+      break;
+
+      case TUNEL_FINAL_OFF:
+       isMovingUp = false;
+       isMovingDown = false;
+       Robot.Tunel.TunelFinalOn(0);
+       System.out.println("Tunel Final ALL Off");
+      break;
+
+      default:
+      break;
+
     }
+
     
   }
 

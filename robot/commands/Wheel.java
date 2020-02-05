@@ -7,15 +7,26 @@
 
 package frc.robot.commands;
 
-import frc.robot.Robot;
-import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
-public class TunelEntry extends Command {
+public class Wheel extends Command {
   boolean isMoving = false;
 
-  public TunelEntry() {
-    requires(Robot.Tunel);
+  public static enum Options {
+    WHEEL_ON,
+    YELLOW,
+    RED,
+    GREEN,
+    BLUE,
+    CYCLE
+  }
+
+  Options options;
+
+  public Wheel(Options options) {
+    requires(Robot.Wheel);
+    this.options = options;
   }
 
   // Called just before this Command runs the first time
@@ -27,15 +38,50 @@ public class TunelEntry extends Command {
   @Override
   protected void execute() {
 
-    if (!isMoving) {
-      Robot.Tunel.TunelEntryOn(RobotMap.TUNEL_ENTRY_ON_VELOCITY);
-      isMoving = true;
-      System.out.println("Tunel Entry On");
-    } else {
-      Robot.Tunel.TunelEntryOn(0);
-      isMoving = false;
-      System.out.println("Tunel Entry Off");
+    switch(options) {
+
+      case WHEEL_ON:
+        if (!isMoving) {
+          Robot.Wheel.WheelOn(0.2);
+          isMoving = true;
+    
+        } else {
+          Robot.Wheel.WheelOn(0);
+          isMoving = false;
+        }
+      break;
+
+
+      case YELLOW:
+
+      break;
+
+
+      case RED:
+
+      break;
+
+
+      case GREEN:
+
+      break;
+
+
+      case BLUE:
+
+      break;
+
+
+      case CYCLE:
+
+      break;
+
+
+      default:
+      break;
+
     }
+
 
   }
 
@@ -48,7 +94,6 @@ public class TunelEntry extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-   
   }
 
   // Called when another command which requires one or more of the same

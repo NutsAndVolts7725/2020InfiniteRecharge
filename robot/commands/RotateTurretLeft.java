@@ -7,15 +7,14 @@
 
 package frc.robot.commands;
 
-import frc.robot.Robot;
-import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
-public class TunelEntry extends Command {
-  boolean isMoving = false;
+public class RotateTurretLeft extends Command {
 
-  public TunelEntry() {
-    requires(Robot.Tunel);
+  public RotateTurretLeft() {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.RotateTurret);
   }
 
   // Called just before this Command runs the first time
@@ -27,28 +26,23 @@ public class TunelEntry extends Command {
   @Override
   protected void execute() {
 
-    if (!isMoving) {
-      Robot.Tunel.TunelEntryOn(RobotMap.TUNEL_ENTRY_ON_VELOCITY);
-      isMoving = true;
-      System.out.println("Tunel Entry On");
-    } else {
-      Robot.Tunel.TunelEntryOn(0);
-      isMoving = false;
-      System.out.println("Tunel Entry Off");
-    }
+    Robot.RotateTurret.setSpeedLeft(true);
+    System.out.println("Turret Rotation Left");
 
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-   
+
+    Robot.RotateTurret.setSpeedLeft(false);
+
   }
 
   // Called when another command which requires one or more of the same

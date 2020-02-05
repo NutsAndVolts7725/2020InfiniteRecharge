@@ -9,27 +9,59 @@ package frc.robot;
 
 import frc.robot.commands.TunelEntry;
 import frc.robot.commands.TunelFinal;
-import frc.robot.commands.TunelShooter;
+import frc.robot.commands.Turret;
+import frc.robot.commands.RotateTurretLeft;
+import frc.robot.commands.RotateTurretRight;
+import frc.robot.commands.Wheel;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.POVButton;
+
+import javax.swing.text.Position;
+
 import edu.wpi.first.wpilibj.Joystick;
+
+import edu.wpi.first.wpilibj.Relay.Direction;
+
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
+
 public class OI {
   Joystick driverController = new Joystick(RobotMap.DRIVER_CONTROLLER);
 
-  JoystickButton JoystickButton11 = new JoystickButton(this.driverController, RobotMap.JOYSTICK_1_BUTTON_11);
+  JoystickButton JoystickButton2 = new JoystickButton(this.driverController, RobotMap.JOYSTICK_1_BUTTON_2);
   JoystickButton JoystickButton12 = new JoystickButton(this.driverController, RobotMap.JOYSTICK_1_BUTTON_12);
   JoystickButton JoystickButton9 = new JoystickButton(this.driverController, RobotMap.JOYSTICK_1_BUTTON_9);
+  
+  JoystickButton JoystickButton10 = new JoystickButton(this.driverController, RobotMap.JOYSTICK_1_BUTTON_10);
+
+
+  Joystick turretController = new Joystick(RobotMap.DRIVER_CONTROLLER_2);
+  JoystickButton joystick2TriggerLeft = new JoystickButton(this.turretController, RobotMap.JOYSTICK_2_TRIGGER_LEFT);
+  JoystickButton joystick2TriggerRight = new JoystickButton(this.turretController, RobotMap.JOYSTICK_2_TRIGGER_RIGHT);
+
+  JoystickButton joystick2ButtonLeft = new JoystickButton(this.turretController, RobotMap.JOYSTICK_2_BUTTON_LEFT);
+  JoystickButton joystick2ButtonRight = new JoystickButton(this.turretController, RobotMap.JOYSTICK_2_BUTTON_RIGHT);
+
+  JoystickButton JoystickButton6 = new JoystickButton(this.driverController, RobotMap.JOYSTICK_2_BUTTON_LEFT);
+
+  POVButton Joystick2PovUp = new POVButton(turretController, RobotMap.POV_UP);
+  POVButton Joystick2PovDown = new POVButton(turretController, RobotMap.POV_DOWN);
 
 public OI() {
   //this.JoystickButton11.whenPressed(new subirPelota());
-  this.JoystickButton11.whenPressed(new TunelEntry());
-  this.JoystickButton12.whenPressed(new TunelFinal());
-  this.JoystickButton9.whenPressed(new TunelShooter());
+  this.JoystickButton2.whenPressed(new TunelEntry());
   
+  this.joystick2TriggerRight.whileHeld(new RotateTurretRight());
+  this.joystick2TriggerLeft.whileHeld(new RotateTurretLeft());
+
+  this.Joystick2PovUp.whenPressed(new TunelFinal(TunelFinal.Direction.TUNEL_FINAL_UP));
+  this.Joystick2PovDown.whenPressed(new TunelFinal(TunelFinal.Direction.TUNEL_FINAL_DOWN));
+  this.joystick2ButtonLeft.whenPressed(new TunelFinal(TunelFinal.Direction.TUNEL_FINAL_OFF));
+  this.joystick2ButtonRight.whenPressed(new Turret());
+
 }
 
   //// CREATING BUTTONS
